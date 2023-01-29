@@ -37,6 +37,10 @@ socketIO.on('connection', (socket) => {
     socket.on('codeChange', (data) => {
         socket.to(codeBlockIndex).emit('updateCode', data);
     });
+    // Handle the correctSolution event from the clients
+    socket.on('solutionStatusChange', (data) => {
+        socket.to(codeBlockIndex).emit('updateSolutionStatus', data);
+    });
 
     // Handle the disconnect event from the clients
     socket.on('disconnect', () => {
