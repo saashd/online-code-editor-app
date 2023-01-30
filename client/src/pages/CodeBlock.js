@@ -22,14 +22,14 @@ const Container = styled.div`
   align-items: center;
 `
 const Button = styled.button`
-  font-size: 20px;
+  font-size: 1.2em;
   background-color: transparent;
   cursor: pointer;
   color: rgb(224, 224, 224);
-  border: 1px solid rgb(158, 158, 158);
+  border: 0.01em solid rgb(158, 158, 158);
   border-radius: 6px;
-  padding: 10px 25px 10px 15px;
-  margin: 20px;
+  padding: 0.5em;
+  margin-top: 1em;
   display: flex;
   flex-flow: row nowrap;
   -webkit-box-pack: end;
@@ -38,7 +38,7 @@ const Button = styled.button`
   &:hover {
     background-color: rgba(66, 66, 66, 0.5);
     color: rgb(224, 224, 224);
-    border: 1px solid rgb(158, 158, 158);
+    border: 0.01em solid rgb(158, 158, 158);
   }
 `
 const ButtonWrapper = styled.div`
@@ -89,7 +89,7 @@ const CodeBlock = () => {
         setCode(code)
         socketRef.current.emit('codeChange', code)
     }
-    
+
     /* Checks if the code is correct and updates the state of solutionIsCorrect.
      Also emits an event 'solutionStatusChange' with the value of whether the solution is correct or not to the connected socket.*/
     const handleSubmit = () => {
@@ -102,8 +102,8 @@ const CodeBlock = () => {
         <Container>
             <h1>{codeBlocks.at(codeBlockIndex).title}</h1>
             <AceEditor
-                width='45%'
-                height='500px'
+                width='40vw'
+                height='50vh'
                 readOnly={isMentor}
                 mode="javascript"
                 theme="twilight"
@@ -127,11 +127,10 @@ const CodeBlock = () => {
                         <CheckIcon style={{paddingRight: "10px"}}/>Submit</Button>
                 </ButtonWrapper>
             }
-            {solutionIsCorrect ?
+            {solutionIsCorrect &&
                 <Smiley>
                     <img width={"200px"} src={smileIcon} alt={"smiley"}/>
-                </Smiley> :
-                <h1>So Sorry</h1>}
+                </Smiley>}
 
         </Container>
     );
