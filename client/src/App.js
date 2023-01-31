@@ -12,7 +12,7 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<Lobby/>}/>
-                <Route path="/code-block/:codeBlockIndex" element={<CodeBlock/>}/>
+                <Route path="/code-block/:id" element={<CodeBlock/>}/>
             </Routes>
         </Router>
     );

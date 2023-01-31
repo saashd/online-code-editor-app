@@ -13,17 +13,13 @@ import smileIcon from "../data/smile-icon.png"
 import {Typography} from "@mui/material";
 import axios from "axios";
 
-const SOCKET_SERVER_URL = "http://localhost:4000";
-
-
 const Container = styled.div`
-  padding: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
 `
 const Button = styled.button`
-  font-size: 1.2em;
+  font-size: 1.2rem;
   background-color: transparent;
   cursor: pointer;
   color: rgb(224, 224, 224);
@@ -44,9 +40,10 @@ const Button = styled.button`
 `
 const ButtonWrapper = styled.div`
   display: flex;
-  width: 45%;
   justify-content: flex-end;
   align-items: flex-end;
+  width: 45vw;
+  margin-left: 3vw;
 `
 const Smiley = styled.div`
   position: absolute;
@@ -58,8 +55,8 @@ const CodeContainer = styled.div`
   display: flex
 `
 const CodeBlock = () => {
-    // Getting the code block index from the URL parameters
-    const {codeBlockIndex} = useParams();
+    // Getting the code block from the URL parameters
+    const {id} = useParams();
     // State variables for the code, role of the user (mentor or not), and the correctness of the solution
     const [codeBlocks, setCodeBlocks] = useState([]);
     const [currCodeBlock, setCurrCodeBlock] = useState([]);
@@ -72,22 +69,23 @@ const CodeBlock = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await axios.get("http://localhost:4000/api")
+            const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api`)
             setCodeBlocks(res.data.codeBlocks)
-            setCurrCodeBlock(res.data.codeBlocks.at(codeBlockIndex))
-            setCode(res.data.codeBlocks.at(codeBlockIndex).code)
+            setCurrCodeBlock(res.data.codeBlocks.at(id))
+            setCode(res.data.codeBlocks.at(id).code)
         }
         fetchData().catch((error) => {
             console.log(error)
         })
         // Reference to the current socket connection
-        socketRef.current = socketIOClient(SOCKET_SERVER_URL, {
-            query: {codeBlockIndex},
+        socketRef.current = socketIOClient(process.env.REACT_APP_SERVER_URL, {
+            query: {codeId: id},
         });
-        socketRef.current.emit('join', codeBlockIndex);
+        socketRef.current.emit('join', id);
         socketRef.current.on('role', data => {
             setIsMentor(data.role === 'mentor');
-            setSolution(data.solution)
+            console.log(data)
+            setSolution(data.solution && data.solution.solution)
         });
         socketRef.current.on('updateCode', newCode => {
             setCode(newCode);
@@ -99,7 +97,7 @@ const CodeBlock = () => {
         return () => {
             socketRef.current.disconnect();
         };
-    }, [codeBlockIndex]);
+    }, [id]);
 
     /* Updates the state of the code and emits an event 'codeChange'
      with the new code to the connected socket.*/
@@ -119,11 +117,11 @@ const CodeBlock = () => {
             <h1>{currCodeBlock.title}</h1>
             <Typography variant="h5">{currCodeBlock.description}</Typography>
             <CodeContainer>
-                <div>
+                <div style={{marginLeft: "3vw"}}>
                     <h1>Task</h1>
                     <AceEditor
                         style={{fontFamily: "monospace !important", fontSize: "16px !important"}}
-                        width='40vw'
+                        width='45vw'
                         height='50vh'
                         readOnly={isMentor}
                         mode="javascript"
@@ -148,7 +146,7 @@ const CodeBlock = () => {
                     <div>
                         <h1>Solution</h1>
                         <AceEditor
-                            width='40vw'
+                            width='45vw'
                             height='50vh'
                             readOnly={true}
                             mode="javascript"
