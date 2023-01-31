@@ -1,7 +1,7 @@
 ## Online code editor app built using the MERN stack (MongoDB, Express, React, and Node.js).
  This web app provides real-time code collaboration for mentors and students. It utilizes the MERN stack and socket.io for efficient and seamless code updates. The app has been deployed to Heroku for easy access.
 
-### [Demo](https://code-blocks.alexdruzina.com/)
+### [Demo](http://code-blocks.alexdruzina.com/)
 
 ### Features
  - Real-time code updates with socket.io
