@@ -43,7 +43,6 @@ const ButtonWrapper = styled.div`
   justify-content: flex-end;
   align-items: flex-end;
   width: 45vw;
-  margin-left: 3vw;
 `
 const Smiley = styled.div`
   position: absolute;
@@ -71,8 +70,11 @@ const CodeBlock = () => {
         const fetchData = async () => {
             const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api`)
             setCodeBlocks(res.data.codeBlocks)
-            setCurrCodeBlock(res.data.codeBlocks.at(id))
-            setCode(res.data.codeBlocks.at(id).code)
+            console.log(res.data.codeBlocks)
+            console.log(id)
+            const block = res.data.codeBlocks.find(block => block._id === id);
+            setCurrCodeBlock(block)
+            setCode(block.code)
         }
         fetchData().catch((error) => {
             console.log(error)
@@ -117,7 +119,7 @@ const CodeBlock = () => {
             <h1>{currCodeBlock.title}</h1>
             <Typography variant="h5">{currCodeBlock.description}</Typography>
             <CodeContainer>
-                <div style={{marginLeft: "3vw"}}>
+                <div>
                     <h1>Task</h1>
                     <AceEditor
                         style={{fontFamily: "monospace !important", fontSize: "16px !important"}}

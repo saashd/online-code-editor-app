@@ -14,10 +14,9 @@ const mobile = (props) => {
 };
 
 const CardsWrapper = styled.div`
-  padding: 5vh;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   border-radius: 0.5em;
   ${mobile({
     padding: "0px", flexDirection: "column", overflow: "scroll",
@@ -67,14 +66,22 @@ const Lobby = () => {
 
     }, []);
     return (
-        <div>
-            <h1>Choose code block</h1>
+        <div><h1 style={{ color: "#f3a712"}}>
+            Welcome to the Code Blocks Lobby!
+        </h1>
+            <p>We're excited to guide you through your journey to becoming a better coder.<br />Choose from a variety of code blocks to explore and master with the help of a mentor.</p>
+            <h2 style={{ color: "#f3a712"}}>Choose code block</h2>
             <CardsWrapper>
                 {codeBlocks.map((block) => (
                     <Link key={block._id} to={`/code-block/${block._id}`} state={block}
                           style={{textDecoration: "none"}}>
                         <CardComponent
-                            sx={{transition: "transform .6s, background-color .6s ease",overflow: "auto", backgroundColor: "rgba(255, 255, 255, 0.05)", color: "#fff"}}
+                            sx={{
+                                tranition: "transform .6s, background-color .6s ease",
+                                overflow: "auto",
+                                backgroundColor: "rgba(255, 255, 255, 0.05)",
+                                color: "#fff"
+                            }}
                             variant="outlined">
 
                             <CardContent>
